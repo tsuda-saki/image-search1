@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>画像追加フォーム</title>
+<style>
+  body {
+    font-family: sans-serif;
+    padding: 20px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  h2 { margin-bottom: 4px; }
+  .sub {
+    color: #666;
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+  section {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+  section h3 {
+    margin-top: 0;
+    font-size: 15px;
+  }
+  label {
+    display: block;
+    font-size: 13px;
+    color: #444;
+    margin-bottom: 4px;
+  }
+  input[type="text"], input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+  }
+  .preview {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .preview img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background: #f2f2f2;
+  }
+  .preview .filename {
+    font-size: 13px;
+    color: #333;
+    word-break: break-all;
+  }
+  button {
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  .list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+  }
+  .list li:last-child { border-bottom: none; }
+  .list img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background: #f2f2f2;
+  }
+  .list .info { flex: 1; min-width: 0; }
+  .list .src {
+    font-size: 13px;
+    font-weight: bold;
+    word-break: break-all;
+  }
+  .list .tags {
+    font-size: 12px;
+    color: #666;
+  }
+  .list .remove-btn {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+  .empty-msg {
+    color: #888;
+    font-size: 13px;
+  }
+  textarea {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: monospace;
+    font-size: 12px;
+    padding: 8px;
+    height: 160px;
+    margin-bottom: 8px;
+  }
+  .actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .note {
+    background: #fff8e1;
+    border: 1px solid #f0e0a0;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: #6a5a1f;
+    margin-bottom: 20px;
+  }
+</style>
+</head>
+<body>
+
+<h2>画像追加フォーム</h2>
+<p class="sub">画像とタグを登録して、検索デモ用の images.json を生成します</p>
+
+<div class="note">
+  このフォームは images.json を作るだけです。画像ファイル自体は、生成された JSON に書かれているパス（例：img/penguin_walk.png）と同じ場所に、自分で手動コピーしてください。
+</div>
+
+<section>
+  <h3>① 既存の images.json を読み込む（任意）</h3>
+  <label for="json-file">編集したい既存ファイルがあれば選択してください</label>
+  <input type="file" id="json-file" accept="application/json">
+</section>
+
+<section>
+  <h3>② 画像を追加</h3>
+  <label for="image-file">画像ファイル</label>
+  <input type="file" id="image-file" accept="image/*">
+
+  <div class="preview" id="preview" style="display:none;">
+    <img id="preview-img" alt="">
+    <span class="filename" id="preview-filename"></span>
+  </div>
+
+  <label for="folder">保存先フォルダ（img/ 内のサブフォルダがあれば指定）</label>
+  <input type="text" id="folder" value="img" placeholder="img">
+
+  <label for="tags">タグ（カンマ区切り、例：penguin, walk, pixel）</label>
+  <input type="text" id="tags" placeholder="penguin, walk, pixel">
+
+  <button id="add-btn">リストに追加</button>
+</section>
+
+<section>
+  <h3>③ 追加済みリスト</h3>
+  <ul class="list" id="entry-list"></ul>
+  <p class="empty-msg" id="empty-msg">まだ画像が追加されていません</p>
+</section>
+
+<section>
+  <h3>④ 出力</h3>
+  <textarea id="json-output" readonly></textarea>
+  <div class="actions">
+    <button id="download-btn">images.json をダウンロード</button>
+    <button id="copy-btn">JSONをコピー</button>
+    <button id="reset-btn">リストを全部クリア</button>
+  </div>
+</section>
+
+<script src="add.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>画像検索デモ</title>
+<style>
+  body {
+    font-family: sans-serif;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .search-box {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 8px;
+  }
+  .search-box input {
+    flex: 1;
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+  .search-box button {
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  .tag-list {
+    margin-bottom: 20px;
+  }
+  .tag-list button {
+    margin: 4px;
+    padding: 5px 12px;
+    border: 1px solid #ccc;
+    border-radius: 999px;
+    background: #fff;
+    cursor: pointer;
+  }
+  .tag-list button.active {
+    background: #333;
+    color: #fff;
+    border-color: #333;
+  }
+  .count-label {
+    color: #666;
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 150px);
+    gap: 15px;
+  }
+  .item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    border-radius: 6px;
+  }
+  .item img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 4px;
+    background: #f2f2f2;
+  }
+  .item .filename {
+    font-size: 11px;
+    color: #888;
+    margin: 6px 0 2px;
+    word-break: break-all;
+  }
+  .copy-btn {
+    margin-top: 5px;
+    padding: 4px 8px;
+    cursor: pointer;
+  }
+  .empty {
+    color: #888;
+    grid-column: 1 / -1;
+  }
+</style>
+</head>
+<body>
+
+<h2>画像検索デモ</h2>
+<p style="margin: -8px 0 16px;"><a href="add.html">＋ 画像を追加する</a></p>
+
+<div class="search-box">
+  <input type="text" id="keyword" placeholder="タグで検索（例：penguin）">
+  <button onclick="search()">検索</button>
+  <button onclick="clearSearch()">クリア</button>
+</div>
+
+<h3>タグ一覧</h3>
+<div class="tag-list" id="tagList"></div>
+
+<h3>検索結果</h3>
+<p class="count-label" id="countLabel"></p>
+<div class="grid" id="result"></div>
+
+<script src="demo.js"></script>
+</body>
+</html>
